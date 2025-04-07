@@ -40,8 +40,8 @@ feature_names = ['Age', 'Gender', 'Earnings ($)', 'Claim Amount ($)',
                 'Automobile Insurance', 'Health Insurance', 'Life Insurance', 'Plan Type']
 
 
-
-customer_profiles = pd.read_csv("churn/preprocessed.csv")
+profiles_path = os.path.join(os.path.dirname(__file__), "preprocessed.csv")
+customer_profiles = pd.read_csv(profiles_path)
 X = customer_profiles.iloc[:,:12]
 y = customer_profiles.iloc[:,12]
 
