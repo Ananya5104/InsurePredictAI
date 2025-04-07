@@ -147,8 +147,15 @@ STATIC_ROOT = BASE_DIR / "staticfiles"  # Directory to collect static files
 STATICFILES_DIRS = [
     BASE_DIR / "static",  # Directory for static files during development
 ]
+#  Add this to serve React assets from the /assets/ path if needed
+STATICFILES_DIRS += [(BASE_DIR / "staticfiles")]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 3600  # Or more, depending on your security policy
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
