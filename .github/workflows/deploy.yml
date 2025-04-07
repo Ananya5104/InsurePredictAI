@@ -38,4 +38,4 @@ jobs:
                 docker stop insurepredictai-backend || true
                 docker rm insurepredictai-backend || true
                 docker run -d --name insurepredictai-backend -p 80:8000 ${{ secrets.DOCKER_USERNAME }}/insurepredictai-backend:latest
-            EOF
+            EOF 
