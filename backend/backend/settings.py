@@ -142,13 +142,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"  # Directory to collect static files
+STATIC_URL = '/static/'
+
+# For production - where to collect static files
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # This is where 'collectstatic' dumps everything
+
+# For development - where your actual static files are
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Directory for static files during development
+    BASE_DIR / 'static',  # This is where YOUR static files go (optional)
 ]
-#  Add this to serve React assets from the /assets/ path if needed
-STATICFILES_DIRS += [(BASE_DIR / "staticfiles")]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
