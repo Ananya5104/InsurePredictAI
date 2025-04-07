@@ -26,13 +26,13 @@ def get_model():
 
     return models
 
-models = get_model()
-churn_model = models["churn_model"]
-plan_recommender = models["plan_recommender"]
-plan_recommender_churn = models["plan_recommender_churn"]
-churn_scaler = models["churn_scaler"]
-plan_scaler = models["plan_scaler"]
-plan_scaler_churn = models["plan_scaler_churn"]
+# models = get_model()
+# churn_model = models["churn_model"]
+# plan_recommender = models["plan_recommender"]
+# plan_recommender_churn = models["plan_recommender_churn"]
+# churn_scaler = models["churn_scaler"]
+# plan_scaler = models["plan_scaler"]
+# plan_scaler_churn = models["plan_scaler_churn"]
 
 # Define the feature names as per training data
 feature_names = ['Age', 'Gender', 'Earnings ($)', 'Claim Amount ($)',
@@ -156,6 +156,19 @@ def get_comprehensive_analysis(features):
     Returns:
     - Dictionary with all analysis results
     """
+    from sklearn.metrics.pairwise import cosine_similarity
+    import pandas as pd
+    import numpy as np
+    import os
+
+    models = get_model()  # ✅ Now only runs when function is called
+
+    churn_model = models["churn_model"]
+    plan_recommender = models["plan_recommender"]
+    plan_recommender_churn = models["plan_recommender_churn"]
+    churn_scaler = models["churn_scaler"]
+    plan_scaler = models["plan_scaler"]
+    plan_scaler_churn = models["plan_scaler_churn"]
     # Create DataFrame with all features
     input_data = pd.DataFrame([features], columns=feature_names).astype(float)
     temp=input_data.copy()
