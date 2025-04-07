@@ -28,7 +28,7 @@ RUN pip install -r ./backend/requirements.txt
 
 # copy react (vite) build to django
 COPY --from=build-stage /code/frontend/dist /code/backend/static
-COPY --from=build-stage /code/frontend/dist/static /code/backend/static
+# COPY --from=build-stage /code/frontend/dist/static /code/backend/static
 COPY --from=build-stage /code/frontend/dist/index.html /code/backend/churn/templates/index.html
 
 
