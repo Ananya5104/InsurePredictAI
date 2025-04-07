@@ -4,35 +4,35 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
-# Load the pre-trained models
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Current script's directory
-PARENT_DIR = os.path.dirname(BASE_DIR)  # Moves one level up
-MODELS_DIR = os.path.join(PARENT_DIR, "models")
+def get_model():
+    import joblib
+    import os
 
-# Load all models
-churn_model_path = os.path.join(MODELS_DIR, "churn_model.pkl")
-churn_model = joblib.load(churn_model_path)
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    PARENT_DIR = os.path.dirname(BASE_DIR)
+    MODELS_DIR = os.path.join(PARENT_DIR, "models")
 
-plan_recommender_path = os.path.join(MODELS_DIR, "plan_type_recommender.pkl")
-plan_recommender = joblib.load(plan_recommender_path)
+    try:
+        models = {
+            "churn_model": joblib.load(os.path.join(MODELS_DIR, "churn_model.pkl")),
+            "plan_recommender": joblib.load(os.path.join(MODELS_DIR, "plan_type_recommender.pkl")),
+            "plan_recommender_churn": joblib.load(os.path.join(MODELS_DIR, "plan_type_recommender_churn.pkl")),
+            "churn_scaler": joblib.load(os.path.join(MODELS_DIR, "churn_scaler.pkl")),
+            "plan_scaler": joblib.load(os.path.join(MODELS_DIR, "plan_type_scaler.pkl")),
+            "plan_scaler_churn": joblib.load(os.path.join(MODELS_DIR, "plan_type_scaler_churn.pkl")),
+        }
+    except FileNotFoundError as e:
+        raise RuntimeError(f"Error loading model files: {e}")
 
-plan_recommender_churn_path = os.path.join(MODELS_DIR, "plan_type_recommender_churn.pkl")
-plan_recommender_churn = joblib.load(plan_recommender_churn_path)
+    return models
 
-# Load scalers
-churn_scaler_path = os.path.join(MODELS_DIR, "churn_scaler.pkl")
-plan_scaler_path = os.path.join(MODELS_DIR, "plan_type_scaler.pkl")
-plan_scaler_churn_path = os.path.join(MODELS_DIR, "plan_type_scaler_churn.pkl")
-
-try:
-    churn_scaler = joblib.load(churn_scaler_path)
-    plan_scaler = joblib.load(plan_scaler_path)
-    plan_scaler_churn = joblib.load(plan_scaler_churn_path)
-except FileNotFoundError:
-    # Handle the case where scalers aren't needed or available
-    churn_scaler = None
-    plan_scaler = None
-    plan_scaler_churn = None
+models = get_model()
+churn_model = models["churn_model"]
+plan_recommender = models["plan_recommender"]
+plan_recommender_churn = models["plan_recommender_churn"]
+churn_scaler = models["churn_scaler"]
+plan_scaler = models["plan_scaler"]
+plan_scaler_churn = models["plan_scaler_churn"]
 
 # Define the feature names as per training data
 feature_names = ['Age', 'Gender', 'Earnings ($)', 'Claim Amount ($)',
@@ -227,3 +227,5 @@ def get_comprehensive_analysis(features):
         "plan_recommendation": plan_result,
         "customer_recommendations": customer_recommendations
     }
+
+

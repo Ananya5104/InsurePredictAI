@@ -1,19 +1,19 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, parser_classes
-from django.shortcuts import render
-from.models import CustomerRecord
-import json
-from .utils import get_comprehensive_analysis
-from .model_utils import retrain_model_from_csv
 from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from django.shortcuts import render
+from django.conf import settings
+from rest_framework import status
+
 from .models import CustomerRecord
 from .serializers import CustomerRecordSerializer
+from .utils import get_comprehensive_analysis
+from .model_utils import retrain_model_from_csv
+
 import os
 import csv
-from rest_framework import status
-from django.conf import settings
+import json
+
 
 # @api_view(['POST'])
 # def predict_and_save(request):
@@ -95,12 +95,7 @@ def save_customer_data(data, churn_prob, recommendation):
     from django.db.models import Max
     from django.db import models
 
-    # Get the current max id
-    max_id = CustomerRecord.objects.aggregate(Max('id'))['id__max'] or 0
-    next_id = max_id + 1
     CustomerRecord.objects.create(
-
-    id = models.IntegerField(primary_key=True),
     age=data['age'],
     gender=data['gender'],
     earnings=data['earnings'],
